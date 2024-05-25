@@ -46,6 +46,9 @@ def get_session(request: Request):
     with Session(engine) as session, query_counter(session, path=handler):
         yield session
 
+def simple_get_session():
+    with Session(engine) as session:
+        yield session
 
 def get_session_ws(websocket: WebSocket):
     # get_route_name is typed with a Request, but in reality a HttpConnection

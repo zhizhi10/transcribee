@@ -1,0 +1,2 @@
+LC_ALL=C.UTF-8 nix-shell shell.nix  -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/880992dcc006a5e00dd0591446fdf723e6a51a64.tar.gz
+./packaging/dev.sh

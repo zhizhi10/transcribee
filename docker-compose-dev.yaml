@@ -3,19 +3,14 @@ services:
   app:
     depends_on:
       - db
-    build:
-      context: .
-      dockerfile: packaging/Dockerfile
+    image: transcribee
     ports:
       - "5173:5173"
     environment:
       - TRANSCRIBEE_BACKEND_DATABASE_URL=postgresql://transcribee:transcribee@db:5432/transcribee
     volumes:
-      - storage_data:/app/backend/storage
-      - pages_data:/app/backend/data/pages
-      - pg_data:/app/backend/db
-      - models:/app/worker/transcribee_worker/.data/models
-      - ./income:/app/income  
+      - ./:/app
+    entrypoint: ["nix-shell", "shell.nix", "--command", "/app/packaging/dev.sh"]
 
   db:
     image: postgres:14
@@ -24,10 +19,4 @@ services:
       POSTGRES_PASSWORD: transcribee
       POSTGRES_DB: transcribee
     volumes:
-      - pg_data:/var/lib/postgresql/data
-
-volumes:
-  pg_data:
-  storage_data:
-  pages_data:
-  models:
+      - ./backend/db:/var/lib/postgresql/data

@@ -16,6 +16,7 @@ from transcribee_backend.routers.user import user_router
 from transcribee_backend.routers.worker import worker_router
 
 from .media_storage import serve_media
+from .plugin.autoprocess import  auto_process
 
 app = FastAPI()
 Instrumentator().instrument(app).expose(app, dependencies=[Depends(metrics_auth)])
@@ -39,6 +40,7 @@ app.include_router(config_router, prefix="/api/v1/config")
 app.include_router(page_router, prefix="/api/v1/page")
 app.include_router(worker_router, prefix="/api/v1/worker")
 
+auto_process()
 
 @app.get("/")
 async def root():
